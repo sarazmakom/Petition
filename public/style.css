@@ -1,0 +1,51 @@
+* {
+    font-family: monospace;
+}
+.view {
+    border: 10px solid black;
+    border-width: thick;
+    margin: 10px;
+}
+.layout {
+    border: 1px solid blue;
+    margin: 10px;
+    border-width: thick;
+}
+.partial {
+    border: 1px solid green;
+    margin: 10px;
+    border-width: thick;
+}
+nav {
+    /* display: grid; */
+}
+.canvas {
+    text-align: center;
+    border: black solid 5px;
+    /* background: blue; */
+    margin: 50px;
+}
+h1 {
+    margin: 20px;
+
+    text-align: center;
+}
+input {
+    font-size: 20px;
+    width: 200px;
+    height: 50px;
+}
+button {
+    font-size: 20px;
+    position: absolute;
+    text-align: center;
+    margin: 30px;
+    width: 100px;
+    height: 50px;
+    border-radius: 10%;
+    left: 600px;
+}
+.inputs {
+    text-align: center;
+    margin: 30px;
+}

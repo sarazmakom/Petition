@@ -1,0 +1,25 @@
+
+
+        <h1>Sign the petition!</h1>
+
+        <form method="POST">
+
+            <div class="inputs">
+                <input type="text" name="first" placeholder="first name">
+                <input type="text" name="last" placeholder="last name">
+                
+
+                <input id="hidden" type="hidden" name="signature" value="">
+                <input type='hidden' name='_csrf' value="{{csrfToken}}">
+
+            </div>
+
+            <h1>Use your mouse to sign the petition:</h1>
+
+            <div class="canvas">
+                <canvas id="canv" width="700" height="100"></canvas>
+            </div>
+
+            <button type="submit">Submit</button>
+
+        </form>
