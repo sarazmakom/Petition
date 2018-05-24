@@ -32,6 +32,5 @@ console.log("something");
 var submit = $("button");
 submit.on("click", function(e) {
     var secret = can.toDataURL();
-    // e.preventDefault();
     hidden.val(secret);
 });

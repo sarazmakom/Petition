@@ -1,7 +1,14 @@
 <h1>Please log in:</h1>
-<form>
-<input type="password" name="password" placeholder="password"></input>
-<input type="email" name="email" placeholder="email address"></input>
+
+{{#if error}}
+<div class="error">Oops! Something went wrong. Please try again.</div>
+{{/if}}
+
+<form method="POST" action="/login">
+<input type="password" name="password" placeholder="password">
+<input type="email" name="email" placeholder="email address">
+<input type='hidden' name='_csrf' value="{{csrfToken}}">
+
 <button type="submit">Submit</button>
 
 </form>

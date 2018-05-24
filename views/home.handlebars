@@ -2,11 +2,13 @@
 
         <h1>Sign the petition!</h1>
 
-        <form method="POST">
+        {{#if error}}
+        <div class="error">Oops! Something went wrong. Please try again.</div>
+        {{/if}}
+
+        <form method="POST" action="/petition">
 
             <div class="inputs">
-                <input type="text" name="first" placeholder="first name">
-                <input type="text" name="last" placeholder="last name">
                 
 
                 <input id="hidden" type="hidden" name="signature" value="">
