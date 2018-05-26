@@ -1,33 +1,37 @@
 * {
     font-family: monospace;
 }
+
+body {
+    /* background-image: url("https://s3.amazonaws.com/finegardening.s3.tauntoncloud.com/app/uploads/2018/01/23170108/5-9-2014-mandelartz-1.jpg"); */
+    /* background-image: url("https://www.123rf.com/photo_29976033_stock-vector-illustration-of-a-house-with-a-well-maintaned-garden-on-the-rooftop.html"); */
+    background-image: url("https://www.123rf.com/photo_29976033_stock-vector-illustration-of-a-house-with-a-well-maintaned-garden-on-the-rooftop.html");
+}
 .view {
-    border: 10px solid black;
-    border-width: thick;
+    /* border: 10px solid black; */
+    /* border-width: thick; */
     margin: 10px;
 }
 .layout {
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     margin: 10px;
     border-width: thick;
-}
-.partial {
-    border: 1px solid green;
-    margin: 10px;
-    border-width: thick;
-}
-nav {
-    /* display: grid; */
 }
 .canvas {
-    text-align: center;
+    /* text-align: center;*/
     border: black solid 5px;
-    /* background: blue; */
-    margin: 50px;
+    /* background: rgb(28, 121, 8); */
+    /* margin-left: 250px;
+    width: 900px;
+    height: 100px; */
+}
+
+a {
+    color: black;
 }
 h1 {
-    margin: 20px;
-
+    /* color: black; */
+    /* margin: 20px; */
     text-align: center;
 }
 input {
@@ -37,16 +41,88 @@ input {
 }
 button {
     font-size: 20px;
-    position: absolute;
-    text-align: center;
-    margin: 30px;
+    /* position: absolute;
+    text-align: center; */
+    /* margin: 30px; */
     width: 100px;
     height: 50px;
     border-radius: 10%;
-    left: 600px;
-    top: 400px;
+    /* left: 400px;
+    top: 400px; */
 }
 .inputs {
     text-align: center;
     margin: 30px;
+}
+
+h2 {
+    /* color: white; */
+}
+
+#edit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+}
+
+input {
+    margin: 20px;
+}
+
+.delete {
+    border: transparent;
+    font-size: 25px;
+    text-decoration: underline;
+    left: 400px;
+
+    /* width: 300px; */
+    /* width: 300px; */
+    /* font-style: underlined */
+}
+
+.login {
+    display: grid;
+    justify-content: center;
+}
+
+h3.text {
+    /* position: relative; */
+    text-align: center;
+    font-size: 25px;
+    margin: 50px;
+    /* width: 600px;
+    height: 200px; */
+    /* padding: 20px; */
+}
+
+.petite {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* margin-left: 350px; */
+    /* max-width: 200vh; */
+    /* display: flex;
+    justify-content: center;
+    font-size: 25px;
+    flex-direction: column; */
+}
+
+.petit_button {
+    /* margin: 150px; */
+}
+
+.signature {
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.thanks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }

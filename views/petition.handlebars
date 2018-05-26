@@ -1,0 +1,30 @@
+
+<div class="petite">
+
+        <h1>Petition for more gardens and parks on all the rooftops</h1>
+
+            <h3 class="text">Sign this petition if you agree that it should be mandatory
+                for every building with a flat rooftop to transform it into a community garden
+                    with free access to everyone</h3>
+
+
+                {{#if error}}
+                    <div class="error">Oops! Something went wrong. Please try again.</div>
+                {{/if}}
+
+        <form method="POST" action="/petition">
+
+
+
+            <h1>Use your mouse to sign the petition:</h1>
+
+            <div class="canvas">
+                <input id="hidden" type="hidden" name="signature" value="">
+                <input type='hidden' name='_csrf' value="{{csrfToken}}">
+                <canvas id="canv" width="900" height="100"></canvas>
+            </div>
+
+            <button class="petit_button" type="submit">Submit</button>
+
+        </form>
+    </div>

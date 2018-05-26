@@ -1,7 +1,15 @@
 
 <div class="signers">
-<h2>These are the people that signed the petition</h2>
-{{#each signers}}
+<h2>These are the people that signed the petition:</h2>
+<!-- {{#each signers}}
     <h3>{{this.first}} {{this.last}}</h3>
+    {{/each}} -->
+
+    {{#each signers}}
+    <h2> {{first}} {{last}} ({{age}}, <a href="/signers/{{city}}">{{city}})</a></h2>
+
+            <!-- <h2> <a href="{{url}}">{{first}} {{last}}</a> (<i>{{age}}</i>, <a href="/signers/{{city}}">{{city}}</a>)</h2> -->
     {{/each}}
+
+
 </div>

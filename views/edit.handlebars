@@ -1,0 +1,12 @@
+
+   <form method="POST" action="/profile/edit" id="edit">
+        <input type="text" name="first" value="{{userInfo.first}}" placeholder="first name">
+        <input type="text" name="last" value="{{userInfo.last}}" placeholder="last name">
+        <input type="email" name="email" value="{{userInfo.email}}" placeholder="email">
+        <input type="password" name="password" placeholder="password">
+        <input type="text" name="age" value="{{userInfo.age}}" placeholder="age">
+        <input type="text" name="city" value="{{userInfo.city}}" placeholder="city">
+        <input type="url" name="url" value="{{userInfo.url}}" placeholder="homepage">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <button type="submit">Update</button>
+    </form>

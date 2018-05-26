@@ -55,35 +55,33 @@ app.get("/login", function(req, res) {
 });
 
 app.post("/login", function(req, res) {
-    console.log(req.body.email);
     let userId;
     let first;
     let last;
     db
         .getUserByEmail(req.body.email)
         .then(function(data) {
-            userId = data.rows[0].id;
+            userId = data.rows[0].user_id;
             first = data.rows[0].first;
             last = data.rows[0].last;
+            sigId = data.rows[0].sig_id;
             return db.checkPassword(req.body.password, data.rows[0].password);
         })
         .then(function(data) {
             if (data == false) {
                 throw new Error();
             } else {
+                // console.log("about to set the session in post login", userId);
                 req.session.userId = userId;
                 req.session.first = first;
                 req.session.last = last;
-                console.log(req.session);
-            }
-        })
-        .then(function() {
-            return db.getSign(req.session.userId).then(function(data) {
-                if (data.rows[0]) {
-                    req.session.sigId = data.rows[0].id;
+                if (sigId) {
+                    req.session.sigId = sigId;
+                    res.redirect("/thanks");
+                } else {
+                    res.redirect("/petition");
                 }
-                res.redirect("/petition");
-            });
+            }
         })
         .catch(function(err) {
             console.log(err);
@@ -91,20 +89,6 @@ app.post("/login", function(req, res) {
                 layout: "main",
                 error: "error"
             });
-        });
-});
-
-app.get("/profile", function(req, res) {
-    res.render("profile", {
-        layout: "main"
-    });
-});
-
-app.post("/profile", function(req, res) {
-    db
-        .getCityAgeUrl(req.body.age, req.body.city, req.body.url)
-        .then(function() {
-            res.redirect("/thanks");
         });
 });
 
@@ -118,7 +102,6 @@ app.post("/register", function(req, res) {
     db
         .hashPassword(req.body.password)
         .then(function(hashedPass) {
-            // console.log("received hashed", hashedPass);
             return db.signUp(
                 req.body.first,
                 req.body.last,
@@ -130,7 +113,7 @@ app.post("/register", function(req, res) {
             req.session.userId = userId.rows[0].id;
             req.session.first = req.body.first;
             req.session.last = req.body.last;
-            res.redirect("/petition");
+            res.redirect("/profile");
         })
         .catch(function(err) {
             console.log(err);
@@ -142,9 +125,9 @@ app.post("/register", function(req, res) {
 });
 
 app.get("/petition", requireUserId, requireNoSignature, (req, res) => {
-    res.render("home", {
-        layout: "main",
-        name: `${req.session.first} ${req.session.last}`
+    res.render("petition", {
+        layout: "main"
+        // name: `${req.session.first} ${req.session.last}`
     });
 });
 
@@ -162,13 +145,109 @@ app.post("/petition", requireNoSignature, (req, res) => {
         })
         .catch(function(err) {
             console.log(err);
-            res.render("home", {
+            res.render("petition", {
                 layout: "main",
                 error: "error"
             });
         });
 });
 
+app.get("/profile", function(req, res) {
+    res.render("profile", {
+        layout: "main"
+    });
+});
+
+app.post("/profile", function(req, res) {
+    db
+        .saveProfile(
+            req.body.age,
+            req.body.city,
+            req.body.url,
+            req.session.userId
+        )
+        .then(function(data) {
+            res.redirect("/petition");
+        })
+        .catch(function(err) {
+            console.log(err);
+            res.render("petition", {
+                layout: "main",
+                error: "error"
+            });
+        });
+});
+
+app.get("/profile/edit", requireUserId, requireSignature, function(req, res) {
+    // console.log(req.session.userId);
+    return db
+        .joinTables(req.session.userId)
+        .then(function(data) {
+            res.render("edit", {
+                layout: "main",
+                userInfo: data.rows[0]
+            });
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+});
+
+app.post("/profile/edit", function(req, res) {
+    if (req.body.password) {
+        db
+            .hashPassword(req.body.password)
+            .then(function(hashedPass) {
+                Promise.all([
+                    db.updatePassword(
+                        req.body.first,
+                        req.body.last,
+                        req.body.email,
+                        hashedPass,
+                        req.session.userId
+                    ),
+                    db.editUserProfiles(
+                        req.body.age,
+                        req.body.city,
+                        req.body.url,
+                        req.session.userId
+                    )
+                ]);
+            })
+            .then(function() {
+                res.redirect("/signers");
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+    } else {
+        Promise.all([
+            db.editUsers(
+                req.body.first,
+                req.body.last,
+                req.body.email,
+                req.session.userId
+            ),
+            db.editUserProfiles(
+                req.body.age,
+                req.body.city,
+                req.body.url,
+                req.session.userId
+            )
+        ])
+            // // .then(function([data1, data2]) {
+            // //     req.session.first = data1.rows[0].first;
+            // //     req.session.last = data1.rows[0].last;
+            // })
+            .then(function() {
+                res.redirect("/thanks");
+            })
+            .catch(function(err) {
+                // res.redirect("/profile/edit");
+                console.log(err);
+            });
+    }
+});
 app.get("/thanks", requireUserId, requireSignature, (req, res) => {
     Promise.all([db.getSignatureById(req.session.sigId), db.getCount()])
         .then(function([sigResult, countResult]) {
@@ -182,6 +261,13 @@ app.get("/thanks", requireUserId, requireSignature, (req, res) => {
         .catch(function(err) {
             console.log(err);
         });
+});
+
+app.post("/thanks", function(req, res) {
+    db.deleteSignature(req.session.userId).then(function() {
+        req.session.sigId = null;
+        res.redirect("/petition");
+    });
 });
 
 app.get("/signers", requireUserId, requireSignature, (req, res) => {
@@ -201,9 +287,10 @@ app.get("/signers", requireUserId, requireSignature, (req, res) => {
 app.get("/signers/:city", function(req, res) {
     db
         .getSignersByCity(req.params.city)
-        .then(function(signers) {
-            res.render("signers", {
-                signers: signers
+        .then(function(result) {
+            res.render("city", {
+                layout: "main",
+                signers: result.rows
             });
         })
         .catch(function(err) {
@@ -213,14 +300,14 @@ app.get("/signers/:city", function(req, res) {
 
 app.get("/logout", requireUserId, function(req, res) {
     req.session = null;
-    res.redirect("/register");
+    res.redirect("/login");
 });
 
 app.get("*", function(req, res) {
     res.redirect("/");
 });
 
-app.listen(8080, () => console.log("Listening..."));
+app.listen(process.env.PORT || 8080, () => console.log("Listening..."));
 
 function requireNoSignature(req, res, next) {
     if (req.session.sigId) {
@@ -240,6 +327,8 @@ function requireSignature(req, res, next) {
 
 function requireUserId(req, res, next) {
     if (!req.session.userId) {
+        // console.log("inside requireUserId, redirect to register");
+
         res.redirect("/register");
     } else {
         next();
