@@ -58,29 +58,34 @@ app.post("/login", function(req, res) {
     let userId;
     let first;
     let last;
+    let sigId;
+
     db
         .getUserByEmail(req.body.email)
         .then(function(data) {
-            userId = data.rows[0].user_id;
+            if (data.rows[0].sig_id) {
+                sigId = data.rows[0].sig_id;
+            }
             first = data.rows[0].first;
             last = data.rows[0].last;
-            sigId = data.rows[0].sig_id;
+            userId = data.rows[0].user_id;
             return db.checkPassword(req.body.password, data.rows[0].password);
         })
         .then(function(data) {
             if (data == false) {
                 throw new Error();
             } else {
-                // console.log("about to set the session in post login", userId);
                 req.session.userId = userId;
                 req.session.first = first;
                 req.session.last = last;
-                if (sigId) {
-                    req.session.sigId = sigId;
-                    res.redirect("/thanks");
-                } else {
-                    res.redirect("/petition");
-                }
+                req.session.sigId = sigId;
+            }
+        })
+        .then(function() {
+            if (!req.session.sigId) {
+                res.redirect("/petition");
+            } else {
+                res.redirect("/thanks");
             }
         })
         .catch(function(err) {
@@ -290,7 +295,8 @@ app.get("/signers/:city", function(req, res) {
         .then(function(result) {
             res.render("city", {
                 layout: "main",
-                signers: result.rows
+                signers: result.rows,
+                city: req.params.city
             });
         })
         .catch(function(err) {

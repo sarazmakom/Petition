@@ -1,4 +1,4 @@
-
+<div class="edit">
    <form method="POST" action="/profile/edit" id="edit">
         <input type="text" name="first" value="{{userInfo.first}}" placeholder="first name">
         <input type="text" name="last" value="{{userInfo.last}}" placeholder="last name">
@@ -10,3 +10,4 @@
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <button type="submit">Update</button>
     </form>
+</div>

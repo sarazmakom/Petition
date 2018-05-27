@@ -4,6 +4,7 @@ var canvas = $("#canv");
 var hidden = $('input[name="signature"]');
 
 ctx.strokeStyle = "black";
+ctx.lineWidth = 5;
 
 (function exCan() {
     var draw;

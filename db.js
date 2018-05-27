@@ -66,13 +66,6 @@ module.exports.editUsers = function(first, last, email, id) {
     );
 };
 
-// module.exports.upsert = function(age, city, url, userId){
-//     `INSERT INTO user_profiles (age, city, url, userId)
-//         VALUES ($1, $2, $3, $4)
-//         ON CONFLICT (user_profiles.user_id = users.id)
-//         DO UPDATE SET `
-// }
-
 module.exports.getSignersByCity = function(city) {
     return db.query(
         `
@@ -108,7 +101,7 @@ module.exports.getSignatureById = function(sigId) {
 module.exports.getUserByEmail = function getUserByEmail(email) {
     return db.query(
         `
-        SELECT users.id as user_id, signatures.id as sig_id, signatures.user_id as sig_user, users.first, users.last, password
+        SELECT users.first, users.last, password, users.id as user_id, signatures.id as sig_id
         FROM users
         LEFT JOIN signatures
         ON signatures.user_id = users.id
@@ -124,9 +117,9 @@ module.exports.getSigId = function(userId) {
 module.exports.joinTables = function(userId) {
     return db.query(
         `SELECT * FROM user_profiles
-            LEFT JOIN users
-            ON user_profiles.user_id = users.id
-            WHERE users.id = $1
+         LEFT JOIN users
+         ON user_profiles.user_id = users.id
+         WHERE users.id = $1
         `,
         [userId]
     );

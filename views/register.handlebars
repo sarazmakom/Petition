@@ -1,6 +1,7 @@
+<div class="registerPlace">
 
+<form method="POST" action="/register" class="register">
 
-<form method="POST" action="/register">
 <input type="text" name="first" placeholder="first name">
 <input type="text" name="last" placeholder="last name">
 <input type="email" name="email" placeholder="email">
@@ -8,11 +9,12 @@
 <input type='hidden' name='_csrf' value="{{csrfToken}}">
 <button type="submit">Submit</button>
 
-</form>
 
+</form>
 
 {{#if error}}
 <div class="error">Oops! Something went wrong. Please try again.</div>
 {{/if}}
 
-<h1>If you're already a member, please <a href="/login">log in</a></h1>
+<h2><a href="/login">Log in</a></h2>
+</div>

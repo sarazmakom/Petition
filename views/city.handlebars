@@ -1,10 +1,4 @@
-<div class="signers">
-
+<h3>Here are all the people that signed in the city of {{{city}}}</h3>
 {{#each signers}}
-<h2> {{first}} {{last}}, {{age}}</h2>
-<!-- <h2><a href="{{url}}"></h2> -->
-{{/each}}
-
-<h2> <a href="/signers">Go back to signers</a> </h2>
-
-</div>
+        <h3 class="signers">    {{{ first}}} {{{last }}}, {{{ age}}} </h3>
+        {{/each}}

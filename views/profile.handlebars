@@ -1,18 +1,15 @@
-<h1>Set your profile by adding the city, age and the url to your webpage</h1>
-
+<div class="profilePlace">
 {{#if error}}
 <div class="error">Oops! Something went wrong. Please try again.</div>
 {{/if}}
 
 <form class="profile" method="POST" action='/profile'>
 <input type="city" name="city" placeholder="city">
-
 <input type="age" name="age" placeholder="age">
-
-<input type="url" name="url" placeholder="url">
-
+<input type="url" name="url" placeholder="homepage">
 <input type='hidden' name='_csrf' value="{{csrfToken}}">
 
 <button type="submit">Continue</button>
 
 </form>
+</div>
