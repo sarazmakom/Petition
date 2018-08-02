@@ -1,11 +1,7 @@
-<!-- <h1>Log in:</h1> -->
-
-{{#if error}}
-<div class="error">Oops! Something went wrong. Please try again.</div>
-{{/if}}
 
 <div class="log">
-<form method="POST" action="/login" class="login">
+
+<form method="POST" action="/login" class="grid">
 <input type="email" name="email" placeholder="email">
 <input type="password" name="password" placeholder="password">
 <input type='hidden' name='_csrf' value="{{csrfToken}}">
@@ -13,4 +9,7 @@
 </form>
 
 <h2 class="signup" ><a href="/register">Sign up</a></h2>
+{{#if error}}
+<div class="error">Oops! Something went wrong. Please try again.</div>
+{{/if}}
 </div>

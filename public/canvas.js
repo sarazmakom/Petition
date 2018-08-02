@@ -14,7 +14,6 @@ ctx.lineWidth = 5;
         y = e.offsetY;
         draw = true;
     });
-
     canvas.on("mousemove", function(e) {
         if (draw) {
             ctx.moveTo(x, y);
@@ -24,7 +23,6 @@ ctx.lineWidth = 5;
             ctx.stroke();
         }
     });
-
     $(document).on("mouseup", function(e) {
         draw = false;
     });

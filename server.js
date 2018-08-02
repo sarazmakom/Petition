@@ -59,7 +59,6 @@ app.post("/login", function(req, res) {
     let first;
     let last;
     let sigId;
-
     db
         .getUserByEmail(req.body.email)
         .then(function(data) {
@@ -184,7 +183,6 @@ app.post("/profile", function(req, res) {
 });
 
 app.get("/profile/edit", requireUserId, requireSignature, function(req, res) {
-    // console.log(req.session.userId);
     return db
         .joinTables(req.session.userId)
         .then(function(data) {
@@ -240,19 +238,15 @@ app.post("/profile/edit", function(req, res) {
                 req.session.userId
             )
         ])
-            // // .then(function([data1, data2]) {
-            // //     req.session.first = data1.rows[0].first;
-            // //     req.session.last = data1.rows[0].last;
-            // })
             .then(function() {
                 res.redirect("/thanks");
             })
             .catch(function(err) {
-                // res.redirect("/profile/edit");
                 console.log(err);
             });
     }
 });
+
 app.get("/thanks", requireUserId, requireSignature, (req, res) => {
     Promise.all([db.getSignatureById(req.session.sigId), db.getCount()])
         .then(function([sigResult, countResult]) {
@@ -333,8 +327,6 @@ function requireSignature(req, res, next) {
 
 function requireUserId(req, res, next) {
     if (!req.session.userId) {
-        // console.log("inside requireUserId, redirect to register");
-
         res.redirect("/register");
     } else {
         next();
